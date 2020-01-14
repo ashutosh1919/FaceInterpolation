@@ -1,0 +1,5 @@
+Pillow
+numpy
+matplotlib
+mtcnn
+tensorflow==1.15
