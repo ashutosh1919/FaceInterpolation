@@ -29,9 +29,9 @@ def interpolate_points(p1, p2, n_steps=10):
 # create a plot of generated images
 def plot_generated(examples, n, filepath):
 	# plot images
-	for i in range(n):
+	for i in range(n * n):
 		# define subplot
-		pyplot.subplot(1, n, 1 + i)
+		pyplot.subplot(n, n, 1 + i)
 		# turn off axis
 		pyplot.axis('off')
 		# plot raw pixel data
