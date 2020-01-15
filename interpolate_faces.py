@@ -1,5 +1,6 @@
 # example of interpolating between generated faces
 from numpy import asarray
+from numpy import vstack
 from numpy.random import randn
 from numpy.random import randint
 from numpy import linspace
@@ -40,12 +41,20 @@ def plot_generated(examples, n, filepath):
 # load model
 model = load_model('generated_models/generator_model_030.h5')
 # generate points in latent space
-pts = generate_latent_points(100, 2)
-# interpolate points in latent space
-interpolated = interpolate_points(pts[0], pts[1])
-# generate images
-X = model.predict(interpolated)
-# scale from [-1,1] to [0,1]
-X = (X + 1) / 2.0
+n = 20
+pts = generate_latent_points(100, n)
+# interpolate pairs
+results = None
+for i in range(0, n, 2):
+	# interpolate points in latent space
+	interpolated = interpolate_points(pts[i], pts[i+1])
+	# generate images
+	X = model.predict(interpolated)
+	# scale from [-1,1] to [0,1]
+	X = (X + 1) / 2.0
+	if results is None:
+		results = X
+	else:
+		results = vstack((results, X))
 # plot the result
-plot_generated(X, len(interpolated), 'generated_plots/interpolating_faces.png')
+plot_generated(results, 10, 'generated_plots/multi_interpolating_faces.png')
