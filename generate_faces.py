@@ -34,4 +34,4 @@ X  = model.predict(latent_points)
 # scale from [-1,1] to [0,1]
 X = (X + 1) / 2.0
 # plot the result
-plot_generated(X, 5, 'generated_plots/generated_faces.png')
+plot_generated(X, 5, 'generated_plots/interpolating_faces.png')
