@@ -32,7 +32,7 @@ def plot_generated(examples, rows, cols, filepath):
 		# plot raw pixel data
 		pyplot.imshow(examples[i, :, :])
 	pyplot.savefig(filepath)
-	pyplot.show()
+	pyplot.close()
 
 # load model
 model = load_model('generated_models/generator_model_030.h5')
@@ -53,7 +53,7 @@ all_vectors = vstack((smiling_woman, neutral_woman, neutral_man))
 images = model.predict(all_vectors)
 # scale pixel values
 images = (images + 1) / 2.0
-plot_generated(images, 3, 4, 'generated_plots/input_of vector_arithmetic.png')
+plot_generated(images, 3, 4, 'generated_plots/input_of_vector_arithmetic.png')
 # smiling woman - neutral woman + neutral man = smiling man
 result_vector = smiling_woman[-1] - neutral_woman[-1] + neutral_man[-1]
 # generate image
