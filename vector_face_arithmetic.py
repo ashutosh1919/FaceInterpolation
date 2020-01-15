@@ -32,6 +32,7 @@ def plot_generated(examples, rows, cols, filepath):
 		# plot raw pixel data
 		pyplot.imshow(examples[i, :, :])
 	pyplot.savefig(filepath)
+	pyplot.show()
 
 # load model
 model = load_model('generated_models/generator_model_030.h5')
