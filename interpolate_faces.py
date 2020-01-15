@@ -3,7 +3,12 @@ from numpy import asarray
 from numpy import vstack
 from numpy.random import randn
 from numpy.random import randint
+from numpy import arccos
+from numpy import clip
+from numpy import dot
+from numpy import sin
 from numpy import linspace
+from numpy.linalg import norm
 from keras.models import load_model
 from matplotlib import pyplot
 
@@ -15,6 +20,15 @@ def generate_latent_points(latent_dim, n_samples, n_classes=10):
 	z_input = x_input.reshape(n_samples, latent_dim)
 	return z_input
 
+# spherical linear interpolation (slerp)
+def slerp(val, low, high):
+	omega = arccos(clip(dot(low/norm(low), high/norm(high)), -1, 1))
+	so = sin(omega)
+	if so == 0:
+		# L'Hopital's rule/LERP
+		return (1.0-val) * low + val * high
+	return sin((1.0-val)*omega) / so * low + sin(val*omega) / so * high
+
 # uniform interpolation between two points in latent space
 def interpolate_points(p1, p2, n_steps=10):
 	# interpolate ratios between the points
@@ -22,7 +36,7 @@ def interpolate_points(p1, p2, n_steps=10):
 	# linear interpolate vectors
 	vectors = list()
 	for ratio in ratios:
-		v = (1.0 - ratio) * p1 + ratio * p2
+		v = slerp(ratio, p1, p2)
 		vectors.append(v)
 	return asarray(vectors)
 
@@ -57,4 +71,4 @@ for i in range(0, n, 2):
 	else:
 		results = vstack((results, X))
 # plot the result
-plot_generated(results, 10, 'generated_plots/multi_interpolating_faces.png')
+plot_generated(results, 10, 'generated_plots/multi_slerp_interpolation.png')
