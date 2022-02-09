@@ -2,5 +2,5 @@ Pillow
 numpy
 matplotlib
 mtcnn
-tensorflow-gpu==1.15
+tensorflow-gpu==2.5.3
 keras
